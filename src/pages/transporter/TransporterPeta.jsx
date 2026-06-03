@@ -70,27 +70,30 @@ const TransporterPeta = () => {
   if (loading) return <div className="text-gray-500 font-medium">Memuat peta lokasi...</div>;
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <div className="space-y-8 animate-fade-in">
+      <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-1">Peta Lokasi Warga</h2>
-          <p className="text-gray-600 text-sm">Cari dan navigasi rute ke lokasi titik jemput warga.</p>
+          <h2 className="text-2xl font-bold text-slate-800 mb-1">Peta Lokasi Warga</h2>
+          <p className="text-slate-500 text-sm">Cari dan navigasi rute ke lokasi titik jemput warga.</p>
         </div>
         
-        <div className="flex gap-4 text-xs font-bold text-gray-600">
-          <div className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-red-500 block"></span> Menunggu</div>
-          <div className="flex items-center gap-1"><span className="w-3 h-3 rounded-full bg-blue-500 block"></span> Diproses</div>
+        <div className="flex flex-wrap gap-4 text-xs font-bold text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-100">
+          <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-red-500 block shadow-sm"></span> Menunggu</div>
+          <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-blue-500 block shadow-sm"></span> Diproses</div>
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 relative overflow-hidden">
-        <Map markers={mapMarkers} height="calc(100vh - 180px)" />
+      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden">
+        <Map markers={mapMarkers} height="calc(100vh - 200px)" />
         
         {/* Overlay Info Card inside Map */}
-        <div className="absolute top-4 right-4 z-[400] bg-white/90 backdrop-blur-sm p-4 rounded-lg shadow-lg border border-gray-200 pointer-events-none w-48">
-          <div className="font-bold text-gray-800 mb-2 border-b pb-1">Lokasi Aktif</div>
-          <div className="text-3xl font-black text-orange-600">{mapMarkers.length}</div>
-          <div className="text-xs text-gray-500 mt-1">Titik penjemputan</div>
+        <div className="absolute top-6 right-6 z-[400] bg-white/95 backdrop-blur-md p-5 rounded-2xl shadow-lg border border-slate-100/50 pointer-events-none w-56">
+          <div className="font-bold text-slate-700 mb-3 border-b border-slate-100 pb-2 flex items-center gap-2">
+            <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+            Lokasi Aktif
+          </div>
+          <div className="text-4xl font-black text-green-600">{mapMarkers.length}</div>
+          <div className="text-xs text-slate-500 mt-1 font-medium">Titik penjemputan</div>
         </div>
       </div>
     </div>

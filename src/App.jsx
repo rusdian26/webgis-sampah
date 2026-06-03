@@ -19,6 +19,7 @@ import WargaRequest from "./pages/warga/WargaRequest";
 import WargaRiwayat from "./pages/warga/WargaRiwayat";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Landing from "./pages/Landing";
 
 function App() {
   const [session, setSession] = useState(null);
@@ -41,7 +42,9 @@ function App() {
       } else {
         setRole(null);
         setLoading(false);
-        if (location.pathname !== '/register') navigate('/login');
+        if (location.pathname !== '/' && location.pathname !== '/register' && location.pathname !== '/login') {
+          navigate('/login');
+        }
       }
     });
 
@@ -56,7 +59,7 @@ function App() {
       setLoading(false);
 
       // Redirect otomatis
-      if (location.pathname === '/' || location.pathname === '/login') {
+      if (location.pathname === '/login') {
         navigate(`/${userRole}`);
       }
     } catch (e) {
@@ -79,7 +82,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<Navigate to={session ? `/${role}` : "/login"} replace />} />
+      <Route path="/" element={<Landing />} />
       <Route path="/login" element={!session ? <Login /> : <Navigate to={`/${role}`} replace />} />
       <Route path="/register" element={!session ? <Register /> : <Navigate to={`/${role}`} replace />} />
       

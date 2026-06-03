@@ -41,40 +41,60 @@ const WargaDashboard = ({ user }) => {
   if (loading) return <div className="text-gray-500">Memuat Dashboard...</div>;
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-        <h2 className="text-xl font-bold text-gray-800 mb-2">Selamat Datang, Warga!</h2>
-        <p className="text-gray-600">Ini adalah halaman ringkasan pengelolaan sampah Anda. Pantau aktivitas request pengangkutan dan status pembayaran Anda di sini.</p>
+    <div className="space-y-8 animate-fade-in">
+      <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold text-slate-800 mb-1">Selamat Datang, Warga!</h2>
+          <p className="text-slate-500 text-sm">Pantau aktivitas pengangkutan dan status pembayaran sampah Anda.</p>
+        </div>
+        <div className="hidden sm:block">
+           <div className="px-4 py-2 bg-green-50 text-green-600 rounded-lg text-sm font-semibold flex items-center gap-2">
+             <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+             Terhubung ke Sistem
+           </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex items-center gap-4 border-l-4 border-l-green-500">
-          <div className="p-3 bg-green-100 text-green-600 rounded-lg">
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
-          </div>
-          <div>
-            <div className="text-sm font-semibold text-gray-500">Total Sampah Terangkut</div>
-            <div className="text-2xl font-bold text-gray-800">{totalSampah.toFixed(1)} <span className="text-base font-normal">Kg</span></div>
-          </div>
-        </div>
-
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex items-center gap-4 border-l-4 border-l-yellow-500">
-          <div className="p-3 bg-yellow-100 text-yellow-600 rounded-lg">
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          </div>
-          <div>
-            <div className="text-sm font-semibold text-gray-500">Pengangkutan Aktif</div>
-            <div className="text-2xl font-bold text-gray-800">{totalAktif} <span className="text-base font-normal">Request</span></div>
+        {/* Card 1 */}
+        <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-slate-100 relative overflow-hidden group">
+          <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-green-500 rounded-l-2xl"></div>
+          <div className="flex justify-between items-start ml-2">
+            <div>
+              <div className="text-sm font-semibold text-slate-500 mb-1">Total Sampah Terangkut</div>
+              <div className="text-3xl font-bold text-slate-800">{totalSampah.toFixed(1)} <span className="text-base font-normal text-slate-500">Kg</span></div>
+            </div>
+            <div className="w-12 h-12 rounded-full bg-green-50 flex items-center justify-center text-green-500 group-hover:scale-110 transition-transform">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+            </div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex items-center gap-4 border-l-4 border-l-blue-500">
-          <div className="p-3 bg-blue-100 text-blue-600 rounded-lg">
-            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        {/* Card 2 */}
+        <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-slate-100 relative overflow-hidden group">
+          <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-yellow-500 rounded-l-2xl"></div>
+          <div className="flex justify-between items-start ml-2">
+            <div>
+              <div className="text-sm font-semibold text-slate-500 mb-1">Pengangkutan Aktif</div>
+              <div className="text-3xl font-bold text-slate-800">{totalAktif} <span className="text-base font-normal text-slate-500">Request</span></div>
+            </div>
+            <div className="w-12 h-12 rounded-full bg-yellow-50 flex items-center justify-center text-yellow-500 group-hover:scale-110 transition-transform">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            </div>
           </div>
-          <div>
-            <div className="text-sm font-semibold text-gray-500">Pembayaran Lunas</div>
-            <div className="text-2xl font-bold text-gray-800">{totalLunas} <span className="text-base font-normal">Transaksi</span></div>
+        </div>
+
+        {/* Card 3 */}
+        <div className="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-slate-100 relative overflow-hidden group">
+          <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-500 rounded-l-2xl"></div>
+          <div className="flex justify-between items-start ml-2">
+            <div>
+              <div className="text-sm font-semibold text-slate-500 mb-1">Pembayaran Lunas</div>
+              <div className="text-3xl font-bold text-slate-800">{totalLunas} <span className="text-base font-normal text-slate-500">Transaksi</span></div>
+            </div>
+            <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 group-hover:scale-110 transition-transform">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            </div>
           </div>
         </div>
       </div>

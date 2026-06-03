@@ -59,23 +59,23 @@ const TransporterPengangkutan = () => {
   if (loading) return <div className="text-gray-500 font-medium">Memuat daftar tugas...</div>;
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <div className="space-y-8 animate-fade-in">
+      <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-1">Daftar Pengangkutan</h2>
-          <p className="text-gray-600 text-sm">Ambil request dari warga dan perbarui status operasional Anda.</p>
+          <h2 className="text-2xl font-bold text-slate-800 mb-1">Daftar Pengangkutan</h2>
+          <p className="text-slate-500 text-sm">Ambil request dari warga dan perbarui status operasional Anda.</p>
         </div>
         
-        <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+        <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto">
           <input 
             type="text" 
             placeholder="Cari warga..." 
-            className="w-full sm:w-64 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition shadow-sm text-sm"
+            className="w-full sm:w-64 px-4 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all shadow-sm text-sm outline-none"
             value={search}
             onChange={e => setSearch(e.target.value)}
           />
           <select 
-            className="w-full sm:w-48 py-2 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition shadow-sm text-sm bg-white"
+            className="w-full sm:w-48 py-2.5 px-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all shadow-sm text-sm bg-white outline-none"
             value={filter}
             onChange={e => setFilter(e.target.value)}
           >
@@ -89,36 +89,40 @@ const TransporterPengangkutan = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredData.map(req => (
-          <div key={req.id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition flex flex-col">
-            <div className={`h-1.5 w-full ${req.status_pengangkutan === 'Selesai' ? 'bg-green-500' : req.status_pengangkutan === 'Diproses' ? 'bg-blue-500' : 'bg-red-500'}`}></div>
-            <div className="p-5 flex-1 flex flex-col">
+          <div key={req.id} className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-md transition-shadow flex flex-col relative group">
+            <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${req.status_pengangkutan === 'Selesai' ? 'bg-green-500' : req.status_pengangkutan === 'Diproses' ? 'bg-blue-500' : 'bg-red-500'}`}></div>
+            <div className="p-6 ml-2 flex-1 flex flex-col">
               <div className="flex justify-between items-start mb-4">
-                <span className={`px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider border ${req.status_pengangkutan === 'Selesai' ? 'bg-green-50 text-green-700 border-green-200' : req.status_pengangkutan === 'Diproses' ? 'bg-blue-50 text-blue-700 border-blue-200' : 'bg-red-50 text-red-700 border-red-200'}`}>
+                <span className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider border ${req.status_pengangkutan === 'Selesai' ? 'bg-green-50 text-green-700 border-green-100' : req.status_pengangkutan === 'Diproses' ? 'bg-blue-50 text-blue-700 border-blue-100' : 'bg-red-50 text-red-700 border-red-100'}`}>
                   {req.status_pengangkutan}
                 </span>
-                <span className="text-xs text-gray-400 font-medium">{new Date(req.created_at).toLocaleDateString('id-ID')}</span>
+                <span className="text-xs text-slate-400 font-medium">{new Date(req.created_at).toLocaleDateString('id-ID')}</span>
               </div>
               
-              <h3 className="text-xl font-bold text-gray-800 mb-1">{req.nama_warga}</h3>
-              <p className="text-gray-500 text-sm mb-4">Sampah: <strong className="text-gray-700">{req.jenis_sampah} ({req.berat} Kg)</strong></p>
+              <h3 className="text-xl font-bold text-slate-800 mb-1 truncate">{req.nama_warga}</h3>
+              <p className="text-slate-500 text-sm mb-5">Sampah: <strong className="text-slate-700">{req.jenis_sampah} ({req.berat} Kg)</strong></p>
               
-              <div className="bg-gray-50 rounded-lg p-3 text-sm text-gray-600 border border-gray-100 mb-4 flex-1">
-                <div className="flex gap-2 mb-2">
-                  <span className="text-gray-400">📍</span>
-                  <span className="line-clamp-3">{req.alamat}</span>
+              <div className="bg-slate-50 rounded-xl p-4 text-sm text-slate-600 border border-slate-100 mb-5 flex-1">
+                <div className="flex gap-3 mb-3">
+                  <span className="text-slate-400 mt-0.5">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                  </span>
+                  <span className="leading-relaxed line-clamp-3">{req.alamat}</span>
                 </div>
-                <div className="flex gap-2">
-                  <span className="text-gray-400">📞</span>
+                <div className="flex gap-3 pt-3 border-t border-slate-200/60">
+                  <span className="text-slate-400">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
+                  </span>
                   <span className="font-semibold text-blue-600">{req.no_hp}</span>
                 </div>
               </div>
 
-              <div className="flex gap-2 mt-auto pt-4 border-t border-gray-100">
+              <div className="flex gap-3 mt-auto pt-4 border-t border-slate-100">
                 {req.status_pengangkutan === 'Menunggu' && (
                   <button 
                     disabled={actionLoading}
                     onClick={() => updateStatus(req.id, 'Diproses')}
-                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-bold text-sm shadow-sm transition flex items-center justify-center gap-2"
+                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold text-sm shadow-sm transition-all flex items-center justify-center gap-2 active:scale-95"
                   >
                     🚛 Ambil Request
                   </button>
@@ -128,15 +132,15 @@ const TransporterPengangkutan = () => {
                   <button 
                     disabled={actionLoading}
                     onClick={() => updateStatus(req.id, 'Selesai')}
-                    className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2.5 rounded-lg font-bold text-sm shadow-sm transition flex items-center justify-center gap-2"
+                    className="flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-3 rounded-xl font-bold text-sm shadow-sm transition-all flex items-center justify-center gap-2 active:scale-95"
                   >
-                    ✅ Selesaikan
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg> Selesaikan
                   </button>
                 )}
 
                 {req.status_pengangkutan === 'Selesai' && (
-                  <div className="flex-1 bg-gray-100 text-gray-500 py-2.5 rounded-lg font-bold text-sm text-center flex items-center justify-center gap-2">
-                    🔒 Tugas Selesai
+                  <div className="flex-1 bg-slate-50 border border-slate-100 text-slate-500 py-3 rounded-xl font-bold text-sm text-center flex items-center justify-center gap-2">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg> Tugas Selesai
                   </div>
                 )}
               </div>
@@ -145,10 +149,10 @@ const TransporterPengangkutan = () => {
         ))}
 
         {filteredData.length === 0 && (
-          <div className="col-span-full py-16 text-center bg-white rounded-xl border border-gray-200 border-dashed">
+          <div className="col-span-full py-16 text-center bg-slate-50/50 rounded-2xl border border-slate-200 border-dashed">
             <div className="text-5xl mb-4 opacity-50">📋</div>
-            <h3 className="text-lg font-bold text-gray-700 mb-2">Tugas Kosong</h3>
-            <p className="text-gray-500">Tidak ada request warga yang cocok dengan pencarian atau status ini.</p>
+            <h3 className="text-lg font-bold text-slate-700 mb-2">Tugas Kosong</h3>
+            <p className="text-slate-500 text-sm">Tidak ada request warga yang cocok dengan pencarian atau status ini.</p>
           </div>
         )}
       </div>
