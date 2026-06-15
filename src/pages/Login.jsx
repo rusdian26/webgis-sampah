@@ -1,27 +1,43 @@
 import { useState } from "react";
 import { supabase } from "../lib/supabase";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     setErrorMsg("");
     
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data: authData, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
     if (error) {
       setErrorMsg(error.message);
-    } else {
-      window.location.reload();
+    } else if (authData?.user) {
+      // Cek status akun dari tabel users
+      const { data: userProfile } = await supabase
+        .from('users')
+        .select('status_akun, role')
+        .eq('id', authData.user.id)
+        .single();
+        
+      if (userProfile?.role !== 'admin' && userProfile?.status_akun === 'Pending') {
+         await supabase.auth.signOut();
+         setErrorMsg("Akun Anda sedang menunggu persetujuan Admin.");
+      } else if (userProfile?.role !== 'admin' && userProfile?.status_akun === 'Ditolak') {
+         await supabase.auth.signOut();
+         setErrorMsg("Pendaftaran akun Anda ditolak oleh Admin.");
+      } else {
+         navigate(`/${userProfile?.role || 'warga'}`);
+      }
     }
     setLoading(false);
   };
@@ -143,6 +159,11 @@ export default function Login() {
             </div>
           </form>
 
+          {/* Daftar Section */}
+          <div className="mt-6 text-center text-sm text-gray-500">
+            Belum punya akun? <Link to="/register" className="text-green-600 hover:text-green-700 font-bold hover:underline transition-all">Daftar di sini</Link>
+          </div>
+
           {/* Test Credentials Info */}
           <div className="mt-8 pt-6 border-t border-gray-100">
             <div className="bg-blue-50/50 rounded-xl p-4 text-sm text-gray-600">
@@ -150,7 +171,7 @@ export default function Login() {
                 <svg className="w-4 h-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                Gunakan akun test:
+                Daftar Akun yang Terdaftar:
               </p>
               <ul className="space-y-1.5 ml-5 list-disc text-gray-500">
                 <li><span className="font-medium text-gray-700">warga@test.com</span> (Warga)</li>

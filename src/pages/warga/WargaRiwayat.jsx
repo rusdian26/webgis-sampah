@@ -35,9 +35,23 @@ const WargaRiwayat = ({ user }) => {
     setLoading(false);
   };
 
-  const handlePembayaran = async (id) => {
+  const handlePembayaran = async (id, nominal) => {
     setActionLoading(true);
     const { error } = await supabase.from('sampah').update({ status_pembayaran: 'Proses Bayar' }).eq('id', id);
+    
+    if (!error) {
+      // --- LOGIKA RELASI BARU: Insert data ke tabel pembayaran ---
+      await supabase.from('pembayaran').insert({
+        sampah_id: id,
+        user_id: user.id,
+        nominal: nominal || 0,
+        metode_pembayaran: 'Transfer Bank / Online',
+        status: 'Pending',
+        tanggal_bayar: new Date().toISOString()
+      });
+      // -----------------------------------------------------------
+    }
+    
     setActionLoading(false);
     
     if (!error) {
@@ -97,9 +111,9 @@ const WargaRiwayat = ({ user }) => {
                     </span>
                   </td>
                   <td className="p-4 pr-6 text-right">
-                    {req.status_pembayaran === 'Belum' && req.status_pengangkutan === 'Selesai' ? (
+                    {req.status_pembayaran === 'Belum' ? (
                       <button 
-                        onClick={() => handlePembayaran(req.id)}
+                        onClick={() => handlePembayaran(req.id, req.nominal)}
                         disabled={actionLoading}
                         className="bg-green-500 hover:bg-green-600 text-white px-4 py-2.5 rounded-xl text-sm transition-colors font-bold shadow-sm inline-flex items-center gap-2 justify-center"
                       >

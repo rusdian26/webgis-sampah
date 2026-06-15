@@ -37,6 +37,14 @@ const AdminVerifikasi = () => {
       .update({ status_pembayaran: statusBaru })
       .eq('id', id);
       
+    if (!error) {
+      // --- LOGIKA RELASI BARU: Sinkronisasi update status ke tabel pembayaran ---
+      await supabase
+        .from('pembayaran')
+        .update({ status: statusBaru })
+        .eq('sampah_id', id);
+    }
+      
     setActionLoading(false);
     
     if (error) {

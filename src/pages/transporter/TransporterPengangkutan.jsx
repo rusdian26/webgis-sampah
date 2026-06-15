@@ -35,6 +35,25 @@ const TransporterPengangkutan = () => {
   const updateStatus = async (id, status) => {
     setActionLoading(true);
     const { error } = await supabase.from('sampah').update({ status_pengangkutan: status }).eq('id', id);
+    
+    if (!error) {
+      // --- LOGIKA RELASI BARU: Sinkronisasi ke tabel pengangkutan ---
+      if (status === 'Diproses') {
+        const { data: { user } } = await supabase.auth.getUser();
+        await supabase.from('pengangkutan').insert({
+          sampah_id: id,
+          transporter_id: user?.id,
+          status: 'Diproses',
+          waktu_jemput: new Date().toISOString()
+        });
+      } else if (status === 'Selesai') {
+        await supabase.from('pengangkutan').update({
+          status: 'Selesai',
+          waktu_selesai: new Date().toISOString()
+        }).eq('sampah_id', id);
+      }
+    }
+
     setActionLoading(false);
     
     if (error) {
@@ -51,6 +70,10 @@ const TransporterPengangkutan = () => {
   };
 
   const filteredData = data.filter(item => {
+    // --- LOGIKA ALGORITMA BARU ---
+    // Transporter hanya boleh menerima/melihat request jika status pembayaran sudah "Lunas" (diverifikasi Admin)
+    if (item.status_pengangkutan === 'Menunggu' && item.status_pembayaran !== 'Lunas') return false;
+    
     if (filter !== 'all' && item.status_pengangkutan !== filter) return false;
     if (search && !item.nama_warga?.toLowerCase().includes(search.toLowerCase())) return false;
     return true;

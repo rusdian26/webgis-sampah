@@ -32,6 +32,7 @@ const TransporterPeta = () => {
 
   const mapMarkers = data
     .filter(item => item.latitude && item.longitude)
+    .filter(item => !(item.status_pengangkutan === 'Menunggu' && item.status_pembayaran !== 'Lunas'))
     .map(item => {
       let color = '#ef4444'; // merah: menunggu
       let statusIcon = '🔴';

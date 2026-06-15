@@ -6,6 +6,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminDataWarga from "./pages/admin/AdminDataWarga";
 import AdminDataPengangkutan from "./pages/admin/AdminDataPengangkutan";
 import AdminVerifikasi from "./pages/admin/AdminVerifikasi";
+import AdminPersetujuan from "./pages/admin/AdminPersetujuan";
 import AdminMonitoring from "./pages/admin/AdminMonitoring";
 import TransporterLayout from "./pages/transporter/TransporterLayout";
 import TransporterDashboard from "./pages/transporter/TransporterDashboard";
@@ -83,8 +84,8 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
-      <Route path="/login" element={!session ? <Login /> : <Navigate to={`/${role}`} replace />} />
-      <Route path="/register" element={!session ? <Register /> : <Navigate to={`/${role}`} replace />} />
+      <Route path="/login" element={!session ? <Login /> : <Navigate to={`/${role || 'warga'}`} replace />} />
+      <Route path="/register" element={!session ? <Register /> : <Navigate to={`/${role || 'warga'}`} replace />} />
       
       {/* Nested Routes Admin */}
       <Route path="/admin" element={session && role === 'admin' ? <AdminLayout user={session?.user} /> : <Navigate to="/" replace />}>
@@ -92,6 +93,7 @@ function App() {
         <Route path="dashboard" element={<AdminDashboard user={session?.user} />} />
         <Route path="data-warga" element={<AdminDataWarga user={session?.user} />} />
         <Route path="data-pengangkutan" element={<AdminDataPengangkutan user={session?.user} />} />
+        <Route path="persetujuan" element={<AdminPersetujuan user={session?.user} />} />
         <Route path="verifikasi" element={<AdminVerifikasi user={session?.user} />} />
         <Route path="monitoring-peta" element={<AdminMonitoring user={session?.user} />} />
       </Route>
@@ -110,6 +112,9 @@ function App() {
         <Route path="request" element={<WargaRequest user={session?.user} />} />
         <Route path="riwayat" element={<WargaRiwayat user={session?.user} />} />
       </Route>
+      
+      {/* Fallback route untuk URL yang tidak valid */}
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }

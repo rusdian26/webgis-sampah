@@ -24,7 +24,7 @@ const TransporterDashboard = () => {
     setLoading(false);
   };
 
-  const totalMenunggu = data.filter(d => d.status_pengangkutan === 'Menunggu').length;
+  const totalMenunggu = data.filter(d => d.status_pengangkutan === 'Menunggu' && d.status_pembayaran === 'Lunas').length;
   const totalDiproses = data.filter(d => d.status_pengangkutan === 'Diproses').length;
   const totalSelesai = data.filter(d => d.status_pengangkutan === 'Selesai').length;
   const totalBerat = data.reduce((acc, curr) => acc + (curr.berat || 0), 0);
