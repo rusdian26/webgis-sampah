@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabase';
 import Map from '../components/Map';
 import Layout from '../components/Layout';
 
-export default function Transporter({ user }) {
+export default function Courier({ user }) {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState('all');
@@ -13,7 +13,7 @@ export default function Transporter({ user }) {
     fetchRequests();
 
     const channel = supabase
-      .channel('public:sampah:transporter')
+      .channel('public:sampah:courier')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'sampah' }, () => {
         fetchRequests();
       })
@@ -75,7 +75,7 @@ export default function Transporter({ user }) {
     });
 
   return (
-    <Layout role="transporter">
+    <Layout role="courier">
       <div className="space-y-6">
         <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
           <h2 className="text-xl font-semibold mb-4 text-gray-800">Peta Lokasi Warga (Live)</h2>

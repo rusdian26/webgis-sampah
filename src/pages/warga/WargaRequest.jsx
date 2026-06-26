@@ -41,7 +41,7 @@ const WargaRequest = ({ user }) => {
       <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 mb-1">Request Pengangkutan Aktif</h2>
-          <p className="text-slate-500 text-sm">Pantau pergerakan Transporter untuk menjemput sampah Anda di sini.</p>
+          <p className="text-slate-500 text-sm">Pantau pergerakan Courier untuk menjemput sampah Anda di sini.</p>
         </div>
       </div>
 
@@ -80,7 +80,7 @@ const WargaRequest = ({ user }) => {
               {req.status_pengangkutan === 'Menunggu' && (
                 <div className="flex items-center gap-2 text-sm text-yellow-600 font-bold bg-yellow-50 p-3 rounded-xl justify-center border border-yellow-100">
                   <svg className="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                  Menunggu Transporter
+                  Menunggu Courier
                 </div>
               )}
               {req.status_pengangkutan === 'Diproses' && (

@@ -21,13 +21,16 @@ const Landing = () => {
             </div>
 
             {/* Desktop Menu */}
-            <div className="hidden md:flex space-x-8 items-center">
+            <div className="hidden md:flex space-x-8 items-center flex-1 justify-center">
               <a href="#home" className="text-gray-600 hover:text-green-600 font-medium transition-colors">Home</a>
-              <a href="#tentang" className="text-gray-600 hover:text-green-600 font-medium transition-colors">Tentang</a>
+              <Link to="/tentang" className="text-gray-600 hover:text-green-600 font-medium transition-colors">Tentang</Link>
               <a href="#layanan" className="text-gray-600 hover:text-green-600 font-medium transition-colors">Layanan</a>
-              <a href="#statistik" className="text-gray-600 hover:text-green-600 font-medium transition-colors">Statistik</a>
-              <a href="#kontak" className="text-gray-600 hover:text-green-600 font-medium transition-colors">Kontak</a>
-              <Link to="/login" className="px-6 py-2.5 rounded-full bg-green-500 hover:bg-green-600 text-white font-medium shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
+              <Link to="/statistik" className="text-gray-600 hover:text-green-600 font-medium transition-colors">Statistik</Link>
+              <Link to="/kontak" className="text-gray-600 hover:text-green-600 font-medium transition-colors">Kontak</Link>
+            </div>
+
+            <div className="hidden md:flex items-center">
+              <Link to="/login" className="px-6 py-2.5 rounded-full bg-green-500 hover:bg-green-600 text-white font-medium shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 whitespace-nowrap">
                 Masuk / Daftar
               </Link>
             </div>
@@ -125,7 +128,7 @@ const Landing = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </div>
-              <h4 className="text-xl font-bold text-gray-900 mb-3">Tracking Transporter</h4>
+              <h4 className="text-xl font-bold text-gray-900 mb-3">Tracking Courier</h4>
               <p className="text-gray-600">Pantau lokasi truk pengangkut sampah secara real-time di peta interaktif.</p>
             </div>
 

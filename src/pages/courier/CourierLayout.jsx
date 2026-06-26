@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 
-const TransporterLayout = ({ user }) => {
+const CourierLayout = ({ user }) => {
   const navigate = useNavigate();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
@@ -12,17 +12,20 @@ const TransporterLayout = ({ user }) => {
   };
 
   const menus = [
-    { name: 'Dashboard Transporter', path: '/transporter/dashboard', icon: (
+    { name: 'Dashboard Courier', path: '/courier/dashboard', icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
     ) },
-    { name: 'Daftar Pengangkutan', path: '/transporter/pengangkutan', icon: (
+    { name: 'Daftar Pengangkutan', path: '/courier/pengangkutan', icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>
     ) },
-    { name: 'Peta Lokasi Warga', path: '/transporter/peta', icon: (
+    { name: 'Peta Lokasi Warga', path: '/courier/peta', icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
     ) },
-    { name: 'Status Pengangkutan', path: '/transporter/status', icon: (
+    { name: 'Status Pengangkutan', path: '/courier/status', icon: (
       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
+    ) },
+    { name: 'Pendapatan', path: '/courier/pendapatan', icon: (
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
     ) }
   ];
 
@@ -43,7 +46,7 @@ const TransporterLayout = ({ user }) => {
         </div>
 
         <div className="flex-1 overflow-y-auto py-6 px-4 no-scrollbar">
-          <div className="text-xs font-semibold text-green-200 uppercase tracking-wider mb-4 pl-3">Menu Transporter</div>
+          <div className="text-xs font-semibold text-green-200 uppercase tracking-wider mb-4 pl-3">Menu Courier</div>
           <ul className="space-y-1.5">
             {menus.map((menu, index) => (
               <li key={index}>
@@ -71,7 +74,7 @@ const TransporterLayout = ({ user }) => {
               T
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-white truncate">Transporter</p>
+              <p className="text-sm font-semibold text-white truncate">Courier</p>
               <p className="text-xs text-green-200 truncate flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
                 Online
@@ -118,7 +121,7 @@ const TransporterLayout = ({ user }) => {
                 onClick={() => setShowProfileMenu(!showProfileMenu)}
                 className="flex items-center gap-2 hover:bg-slate-50 p-1.5 rounded-full transition-colors border border-transparent hover:border-slate-200"
               >
-                <img src={`https://ui-avatars.com/api/?name=Transporter&background=22c55e&color=fff&rounded=true`} alt="Profile" className="w-8 h-8 rounded-full shadow-sm" />
+                <img src={`https://ui-avatars.com/api/?name=Courier&background=22c55e&color=fff&rounded=true`} alt="Profile" className="w-8 h-8 rounded-full shadow-sm" />
                 <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
@@ -127,8 +130,8 @@ const TransporterLayout = ({ user }) => {
               {showProfileMenu && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50 animate-fade-in-up">
                   <div className="px-4 py-2 border-b border-slate-100 mb-1">
-                    <p className="text-sm font-semibold text-slate-800">Transporter</p>
-                    <p className="text-xs text-slate-500 truncate">{user?.email || 'transporter@ecowaste.com'}</p>
+                    <p className="text-sm font-semibold text-slate-800">Courier</p>
+                    <p className="text-xs text-slate-500 truncate">{user?.email || 'courier@ecowaste.com'}</p>
                   </div>
                   <button 
                     onClick={handleLogout}
@@ -154,4 +157,4 @@ const TransporterLayout = ({ user }) => {
   );
 };
 
-export default TransporterLayout;
+export default CourierLayout;

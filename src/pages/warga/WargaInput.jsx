@@ -22,8 +22,14 @@ const WargaInput = ({ user }) => {
   }, [user]);
 
   const fetchUserProfile = async () => {
-    const { data: prof } = await supabase.from('users').select('*').eq('id', user.id).single();
-    setUserProfile(prof);
+    const { data: prof, error: profError } = await supabase.from('users').select('*').eq('id', user.id).single();
+    
+    // Fallback jika tabel users kosong/di-reset
+    if (profError || !prof) {
+      setUserProfile({ nama: user.email?.split('@')[0] || 'Warga' });
+    } else {
+      setUserProfile(prof);
+    }
 
     // Ambil data lokasi terakhir jika ada
     const { data: lastReq } = await supabase
@@ -139,7 +145,7 @@ const WargaInput = ({ user }) => {
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               </span>
               <p className="text-sm text-blue-800 font-medium">
-                Pastikan Anda telah memilih titik lokasi rumah pada peta di sebelah kanan agar Transporter dapat menemukan Anda.
+                Pastikan Anda telah memilih titik lokasi rumah pada peta di sebelah kanan agar Courier dapat menemukan Anda.
               </p>
             </div>
 

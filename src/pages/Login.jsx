@@ -175,7 +175,7 @@ export default function Login() {
               </p>
               <ul className="space-y-1.5 ml-5 list-disc text-gray-500">
                 <li><span className="font-medium text-gray-700">warga@test.com</span> (Warga)</li>
-                <li><span className="font-medium text-gray-700">transporter@test.com</span> (Transporter)</li>
+                <li><span className="font-medium text-gray-700">courier@test.com</span> (Courier)</li>
                 <li><span className="font-medium text-gray-700">admin@test.com</span> (Admin)</li>
               </ul>
               <p className="mt-2 text-gray-500">

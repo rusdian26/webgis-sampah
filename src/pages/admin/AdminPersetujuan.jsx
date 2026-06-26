@@ -69,7 +69,7 @@ const AdminPersetujuan = () => {
       <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 border-l-4 border-l-blue-500 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 mb-1">Persetujuan Akun</h2>
-          <p className="text-slate-500 text-sm">Verifikasi pendaftaran pengguna baru (Warga & Transporter).</p>
+          <p className="text-slate-500 text-sm">Verifikasi pendaftaran pengguna baru (Warga & Courier).</p>
         </div>
       </div>
 
@@ -100,7 +100,7 @@ const AdminPersetujuan = () => {
                     <div className="font-bold text-slate-800">{item.nama}</div>
                   </td>
                   <td className="p-4">
-                    <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${item.role === 'transporter' ? 'bg-orange-100 text-orange-700 border border-orange-200' : 'bg-green-100 text-green-700 border border-green-200'}`}>
+                    <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${item.role === 'courier' ? 'bg-orange-100 text-orange-700 border border-orange-200' : 'bg-green-100 text-green-700 border border-green-200'}`}>
                       {item.role}
                     </span>
                   </td>

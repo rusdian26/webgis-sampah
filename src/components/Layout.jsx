@@ -39,17 +39,17 @@ const Layout = ({ children, role }) => {
       { name: 'Verifikasi Pembayaran', icon: '💰' },
       { name: 'Monitoring Peta', icon: '🗺️' }
     ];
-  } else if (role === 'transporter') {
+  } else if (role === 'courier') {
     theme = { 
       bg: 'bg-orange-600', 
       border: 'border-orange-500', 
       activeBg: 'bg-orange-700', 
       text: 'text-orange-100', 
-      title: 'Driver Transporter',
+      title: 'Courier Courier',
       icon: '🚚'
     };
     menus = [
-      { name: 'Dashboard Transporter', icon: '📱' },
+      { name: 'Dashboard Courier', icon: '📱' },
       { name: 'Daftar Pengangkutan', icon: '📋' },
       { name: 'Peta Lokasi Warga', icon: '📍' },
       { name: 'Status Pengangkutan', icon: '🔄' }

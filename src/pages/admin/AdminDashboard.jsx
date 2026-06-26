@@ -4,20 +4,20 @@ import Swal from 'sweetalert2';
 
 const AdminDashboard = () => {
   const [data, setData] = useState([]);
-  const [transporters, setTransporters] = useState([]);
+  const [couriers, setCouriers] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchData();
-    fetchTransporters();
+    fetchCouriers();
 
     const channel = supabase
       .channel('public:sampah:admin_dashboard')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'sampah' }, () => {
         fetchData();
       })
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'users', filter: 'role=eq.transporter' }, () => {
-        fetchTransporters();
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'users', filter: 'role=eq.courier' }, () => {
+        fetchCouriers();
       })
       .subscribe();
 
@@ -30,14 +30,14 @@ const AdminDashboard = () => {
     setLoading(false);
   };
 
-  const fetchTransporters = async () => {
-    const { data: res } = await supabase.from('users').select('*').eq('role', 'transporter');
-    if (res) setTransporters(res);
+  const fetchCouriers = async () => {
+    const { data: res } = await supabase.from('users').select('*').eq('role', 'courier');
+    if (res) setCouriers(res);
   };
 
-  const hapusTransporter = async (userId) => {
+  const hapusCourier = async (userId) => {
     const confirm = await Swal.fire({
-      title: 'Hapus Transporter?',
+      title: 'Hapus Courier?',
       text: "Data akun tidak dapat dikembalikan!",
       icon: 'warning',
       showCancelButton: true,
@@ -49,8 +49,8 @@ const AdminDashboard = () => {
     if (confirm.isConfirmed) {
       const { error } = await supabase.from('users').delete().eq('id', userId);
       if (!error) {
-        Swal.fire('Terhapus!', 'Akun transporter berhasil dihapus.', 'success');
-        fetchTransporters();
+        Swal.fire('Terhapus!', 'Akun courier berhasil dihapus.', 'success');
+        fetchCouriers();
       } else {
         Swal.fire('Gagal!', error.message, 'error');
       }
@@ -139,12 +139,12 @@ const AdminDashboard = () => {
 
       <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
         <div className="flex justify-between items-center mb-8">
-          <h3 className="text-xl font-bold text-slate-800">Manajemen Akun Transporter</h3>
-          <span className="bg-blue-50 text-blue-600 text-xs px-3 py-1.5 rounded-full font-bold border border-blue-100">{transporters.length} Aktif</span>
+          <h3 className="text-xl font-bold text-slate-800">Manajemen Akun Courier</h3>
+          <span className="bg-blue-50 text-blue-600 text-xs px-3 py-1.5 rounded-full font-bold border border-blue-100">{couriers.length} Aktif</span>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {transporters.map(t => (
+          {couriers.map(t => (
             <div key={t.id} className="p-6 border border-slate-100 rounded-2xl hover:shadow-lg transition-all duration-300 bg-white flex flex-col justify-between group">
               <div className="mb-6">
                 <div className="flex justify-between items-start mb-4">
@@ -160,7 +160,7 @@ const AdminDashboard = () => {
                 </div>
               </div>
               <button 
-                onClick={() => hapusTransporter(t.id)} 
+                onClick={() => hapusCourier(t.id)} 
                 className="w-full py-2.5 bg-slate-50 hover:bg-red-50 text-slate-600 hover:text-red-600 font-semibold rounded-xl text-sm transition-colors border border-slate-200 hover:border-red-200 flex items-center justify-center gap-2"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
@@ -169,10 +169,10 @@ const AdminDashboard = () => {
             </div>
           ))}
           
-          {transporters.length === 0 && (
+          {couriers.length === 0 && (
             <div className="col-span-full py-12 flex flex-col items-center justify-center text-slate-500 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
               <svg className="w-12 h-12 text-slate-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
-              <p>Tidak ada akun Transporter. Tambahkan melalui menu Register.</p>
+              <p>Tidak ada akun Courier. Tambahkan melalui menu Register.</p>
             </div>
           )}
         </div>

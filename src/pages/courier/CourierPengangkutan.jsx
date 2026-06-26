@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import Swal from 'sweetalert2';
 
-const TransporterPengangkutan = () => {
+const CourierPengangkutan = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
@@ -13,7 +13,7 @@ const TransporterPengangkutan = () => {
     fetchData();
 
     const channel = supabase
-      .channel('public:sampah:transporter_pengangkutan')
+      .channel('public:sampah:courier_pengangkutan')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'sampah' }, () => {
         fetchData();
       })
@@ -47,10 +47,22 @@ const TransporterPengangkutan = () => {
           waktu_jemput: new Date().toISOString()
         });
       } else if (status === 'Selesai') {
-        await supabase.from('pengangkutan').update({
+        const { data: pData } = await supabase.from('pengangkutan').update({
           status: 'Selesai',
           waktu_selesai: new Date().toISOString()
-        }).eq('sampah_id', id);
+        }).eq('sampah_id', id).select().single();
+        
+        if (pData) {
+          const { data: sData } = await supabase.from('sampah').select('nominal').eq('id', id).single();
+          const upah = sData?.nominal ? sData.nominal * 0.8 : 10000; // 80% atau flat
+          await supabase.from('pendapatan_courier').insert({
+            pengangkutan_id: pData.id,
+            courier_id: pData.transporter_id,
+            nominal: upah,
+            status_pencairan: 'Belum',
+            tanggal_masuk: new Date().toISOString()
+          });
+        }
       }
     }
 
@@ -71,7 +83,7 @@ const TransporterPengangkutan = () => {
 
   const filteredData = data.filter(item => {
     // --- LOGIKA ALGORITMA BARU ---
-    // Transporter hanya boleh menerima/melihat request jika status pembayaran sudah "Lunas" (diverifikasi Admin)
+    // Courier hanya boleh menerima/melihat request jika status pembayaran sudah "Lunas" (diverifikasi Admin)
     if (item.status_pengangkutan === 'Menunggu' && item.status_pembayaran !== 'Lunas') return false;
     
     if (filter !== 'all' && item.status_pengangkutan !== filter) return false;
@@ -183,4 +195,4 @@ const TransporterPengangkutan = () => {
   );
 };
 
-export default TransporterPengangkutan;
+export default CourierPengangkutan;

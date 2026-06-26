@@ -5,14 +5,14 @@ import Layout from '../components/Layout';
 
 export default function Admin() {
   const [data, setData] = useState([]);
-  const [transporters, setTransporters] = useState([]);
+  const [couriers, setCouriers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('all');
 
   useEffect(() => {
     fetchData();
-    fetchTransporters();
+    fetchCouriers();
 
     const channel = supabase
       .channel('public:sampah:admin')
@@ -35,9 +35,9 @@ export default function Admin() {
     }
   };
 
-  const fetchTransporters = async () => {
-    const { data, error } = await supabase.from('users').select('*').eq('role', 'transporter');
-    if (data) setTransporters(data);
+  const fetchCouriers = async () => {
+    const { data, error } = await supabase.from('users').select('*').eq('role', 'courier');
+    if (data) setCouriers(data);
   };
 
   const verifikasiPembayaran = async (id) => {
@@ -59,11 +59,11 @@ export default function Admin() {
     setLoading(false);
   };
 
-  const hapusTransporter = async (userId) => {
-    if (!window.confirm('Yakin ingin menghapus akun transporter ini?')) return;
+  const hapusCourier = async (userId) => {
+    if (!window.confirm('Yakin ingin menghapus akun courier ini?')) return;
     setLoading(true);
     const { error } = await supabase.from('users').delete().eq('id', userId);
-    if (!error) fetchTransporters();
+    if (!error) fetchCouriers();
     setLoading(false);
   };
 
@@ -120,25 +120,25 @@ export default function Admin() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Manajemen Transporter */}
+          {/* Manajemen Courier */}
           <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 lg:col-span-1">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-semibold text-gray-800">Data Transporter</h2>
+              <h2 className="text-lg font-semibold text-gray-800">Data Courier</h2>
             </div>
             <div className="space-y-3">
-              {transporters.map(t => (
+              {couriers.map(t => (
                 <div key={t.id} className="p-3 border border-gray-100 rounded bg-gray-50 flex justify-between items-center">
                   <div>
                     <div className="font-semibold text-sm">{t.nama}</div>
                     <div className="text-xs text-gray-500">{t.email}</div>
                   </div>
-                  <button onClick={() => hapusTransporter(t.id)} className="text-red-500 hover:bg-red-100 p-1.5 rounded text-xs transition">Hapus</button>
+                  <button onClick={() => hapusCourier(t.id)} className="text-red-500 hover:bg-red-100 p-1.5 rounded text-xs transition">Hapus</button>
                 </div>
               ))}
-              {transporters.length === 0 && <p className="text-sm text-gray-500">Belum ada transporter.</p>}
+              {couriers.length === 0 && <p className="text-sm text-gray-500">Belum ada courier.</p>}
             </div>
             <div className="mt-4 pt-4 border-t border-gray-100 text-xs text-gray-500">
-              *Tambahkan akun transporter baru melalui halaman Register dengan memilih Role "Transporter".
+              *Tambahkan akun courier baru melalui halaman Register dengan memilih Role "Courier".
             </div>
           </div>
 

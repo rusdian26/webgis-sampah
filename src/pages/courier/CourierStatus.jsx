@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 
-const TransporterStatus = () => {
+const CourierStatus = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
@@ -10,7 +10,7 @@ const TransporterStatus = () => {
     fetchData();
 
     const channel = supabase
-      .channel('public:sampah:transporter_status')
+      .channel('public:sampah:courier_status')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'sampah' }, () => {
         fetchData();
       })
@@ -111,4 +111,4 @@ const TransporterStatus = () => {
   );
 };
 
-export default TransporterStatus;
+export default CourierStatus;

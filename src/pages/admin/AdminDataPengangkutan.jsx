@@ -41,7 +41,7 @@ const AdminDataPengangkutan = () => {
       <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h2 className="text-2xl font-bold text-slate-800 mb-1">Status Pengangkutan</h2>
-          <p className="text-slate-500 text-sm">Pantau pergerakan Transporter secara real-time.</p>
+          <p className="text-slate-500 text-sm">Pantau pergerakan Courier secara real-time.</p>
         </div>
         
         <div className="flex bg-slate-100 p-1.5 rounded-xl">
@@ -82,7 +82,7 @@ const AdminDataPengangkutan = () => {
               </div>
 
               <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-xs text-slate-500 font-medium">Transporter:</span>
+                <span className="text-xs text-slate-500 font-medium">Courier:</span>
                 <span className="text-sm font-bold text-slate-700 bg-slate-100 px-3 py-1 rounded-lg">{req.status_pengangkutan === 'Menunggu' ? 'Belum Diambil' : 'Sistem Auto'}</span>
               </div>
             </div>

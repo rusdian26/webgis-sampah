@@ -204,7 +204,7 @@ export default function Register() {
                     onChange={(e) => setForm({ ...form, role: e.target.value })}
                   >
                     <option value="warga">Warga (Pengguna Layanan)</option>
-                    <option value="transporter">Transporter (Pihak Pengangkut)</option>
+                    <option value="courier">Courier (Pihak Pengangkut)</option>
                     <option value="admin">Administrator</option>
                   </select>
                 </div>

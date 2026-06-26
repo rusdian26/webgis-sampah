@@ -8,11 +8,13 @@ import AdminDataPengangkutan from "./pages/admin/AdminDataPengangkutan";
 import AdminVerifikasi from "./pages/admin/AdminVerifikasi";
 import AdminPersetujuan from "./pages/admin/AdminPersetujuan";
 import AdminMonitoring from "./pages/admin/AdminMonitoring";
-import TransporterLayout from "./pages/transporter/TransporterLayout";
-import TransporterDashboard from "./pages/transporter/TransporterDashboard";
-import TransporterPengangkutan from "./pages/transporter/TransporterPengangkutan";
-import TransporterPeta from "./pages/transporter/TransporterPeta";
-import TransporterStatus from "./pages/transporter/TransporterStatus";
+import AdminLaporanKeuangan from "./pages/admin/AdminLaporanKeuangan";
+import CourierLayout from "./pages/courier/CourierLayout";
+import CourierDashboard from "./pages/courier/CourierDashboard";
+import CourierPengangkutan from "./pages/courier/CourierPengangkutan";
+import CourierPeta from "./pages/courier/CourierPeta";
+import CourierStatus from "./pages/courier/CourierStatus";
+import CourierPendapatan from "./pages/courier/CourierPendapatan";
 import WargaLayout from "./pages/warga/WargaLayout";
 import WargaDashboard from "./pages/warga/WargaDashboard";
 import WargaInput from "./pages/warga/WargaInput";
@@ -21,6 +23,9 @@ import WargaRiwayat from "./pages/warga/WargaRiwayat";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Landing from "./pages/Landing";
+import Tentang from "./pages/Tentang";
+import Statistik from "./pages/Statistik";
+import Kontak from "./pages/Kontak";
 
 function App() {
   const [session, setSession] = useState(null);
@@ -54,8 +59,20 @@ function App() {
 
   const fetchRole = async (user) => {
     try {
-      const { data } = await supabase.from("users").select("role").eq("id", user.id).single();
-      const userRole = data?.role || "warga"; // fallback
+      const { data, error } = await supabase.from("users").select("role").eq("id", user.id).single();
+      let userRole = "warga"; // default fallback
+      
+      // Jika terjadi error (seperti tabel di-reset) atau data tidak ada, buat ulang data profilnya
+      if (error || !data) {
+        const name = user.user_metadata?.nama || user.email?.split('@')[0] || 'Warga';
+        // Menyisipkan ulang user ke public.users
+        await supabase.from("users").insert([
+          { id: user.id, email: user.email, nama: name, role: 'warga' }
+        ]);
+      } else {
+        userRole = data.role;
+      }
+      
       setRole(userRole);
       setLoading(false);
 
@@ -84,6 +101,9 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
+      <Route path="/tentang" element={<Tentang />} />
+      <Route path="/statistik" element={<Statistik />} />
+      <Route path="/kontak" element={<Kontak />} />
       <Route path="/login" element={!session ? <Login /> : <Navigate to={`/${role || 'warga'}`} replace />} />
       <Route path="/register" element={!session ? <Register /> : <Navigate to={`/${role || 'warga'}`} replace />} />
       
@@ -96,14 +116,16 @@ function App() {
         <Route path="persetujuan" element={<AdminPersetujuan user={session?.user} />} />
         <Route path="verifikasi" element={<AdminVerifikasi user={session?.user} />} />
         <Route path="monitoring-peta" element={<AdminMonitoring user={session?.user} />} />
+        <Route path="laporan-keuangan" element={<AdminLaporanKeuangan />} />
       </Route>
-      {/* Nested Routes Transporter */}
-      <Route path="/transporter" element={session && role === 'transporter' ? <TransporterLayout user={session?.user} /> : <Navigate to="/" replace />}>
+      {/* Nested Routes Courier */}
+      <Route path="/courier" element={session && role === 'courier' ? <CourierLayout user={session?.user} /> : <Navigate to="/" replace />}>
         <Route index element={<Navigate to="dashboard" replace />} />
-        <Route path="dashboard" element={<TransporterDashboard user={session?.user} />} />
-        <Route path="pengangkutan" element={<TransporterPengangkutan user={session?.user} />} />
-        <Route path="peta" element={<TransporterPeta user={session?.user} />} />
-        <Route path="status" element={<TransporterStatus user={session?.user} />} />
+        <Route path="dashboard" element={<CourierDashboard user={session?.user} />} />
+        <Route path="pengangkutan" element={<CourierPengangkutan user={session?.user} />} />
+        <Route path="peta" element={<CourierPeta user={session?.user} />} />
+        <Route path="status" element={<CourierStatus user={session?.user} />} />
+        <Route path="pendapatan" element={<CourierPendapatan user={session?.user} />} />
       </Route>
       <Route path="/warga" element={session && role === 'warga' ? <WargaLayout user={session?.user} /> : <Navigate to="/" replace />}>
         <Route index element={<Navigate to="dashboard" replace />} />

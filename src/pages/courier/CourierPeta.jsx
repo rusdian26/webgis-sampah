@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
 import Map from '../../components/Map';
 
-const TransporterPeta = () => {
+const CourierPeta = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -10,7 +10,7 @@ const TransporterPeta = () => {
     fetchData();
 
     const channel = supabase
-      .channel('public:sampah:transporter_peta')
+      .channel('public:sampah:courier_peta')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'sampah' }, () => {
         fetchData();
       })
@@ -101,4 +101,4 @@ const TransporterPeta = () => {
   );
 };
 
-export default TransporterPeta;
+export default CourierPeta;
